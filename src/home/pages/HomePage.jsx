@@ -3,6 +3,8 @@ import '../HomePage.css';
 import { Navbar, Restaurant } from '../';
 import { restaurantsCitiesApi } from '../../api';
 import { Audio } from 'react-loader-spinner';
+import Swal from 'sweetalert2';
+import { TransactionHistorial } from '../components/TransactionHistorial';
 
 
 export const HomePage = () => {
@@ -12,7 +14,7 @@ export const HomePage = () => {
     const [search, setSearch] = useState("");
     const [query, setQuery] = useState([0, ""]);
     const [loader, setLoader] = useState(false);
-
+    const [searchHistorial, setsearchHistorial] = useState(false);
 
     useEffect(() => {
         getRestaurants();
@@ -24,12 +26,25 @@ export const HomePage = () => {
                 const { data } = await restaurantsCitiesApi.get(`/v2.1/search?entity_id=${query[0]}&entity_type=city&q=${query[1]}&count=100`);
                 setRest(data.restaurants);
                 setLoader(false);
-                console.log(data);
-
             } catch (error) {
                 console.log(error);
                 setLoader(false);
             }
+        }
+
+        if ((query[0] === 0 && query[1] === "" && loader === true && searchHistorial === false)) {
+            Swal.fire({
+                title: 'Error en la b&uacute;squeda',
+                text: 'Ingresa un valor para empezar la búsqueda',
+                icon: 'warning',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                confirmButtonColor: '#03B103'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setLoader(false);
+                }
+            });
         }
     };
 
@@ -41,10 +56,16 @@ export const HomePage = () => {
         setSearch(e.target.value);
     }
 
-    const getSearch = e => {
+    const getSearch = (e) => {
         e.preventDefault();
-        setLoader(true);      
-        setQuery([id, search])
+        setLoader(true);
+        setQuery([id, search]);
+        setsearchHistorial(false);
+    }
+
+    const geHistorial = e => {
+        e.preventDefault();
+        setsearchHistorial(true);    
     }
 
 
@@ -71,24 +92,28 @@ export const HomePage = () => {
                         <button id="getMessage" className="search-btn">Buscar</button>
                     </div>
                 </form>
+                <button id="getHistorial" className="search-btn" onClick={geHistorial}>Historial b&uacute;squedas</button>
             </div>
 
             {
                 (loader === false)
-                    ? restaurant.map(rest => (
-                        <Restaurant
-                            key={rest.restaurant.id}
-                            name={rest.restaurant.name}
-                            thumb={rest.restaurant.thumb}
-                            locality={rest.restaurant.location.locality}
-                            address={rest.restaurant.location.address}
-                            cuisines={rest.restaurant.cuisines}
-                            cost={rest.restaurant.average_cost_for_two}
-                            rating={rest.restaurant.user_rating.aggregate_rating}
-                            votes={rest.restaurant.user_rating.votes}
-                            rating_color={rest.restaurant.user_rating.rating_obj.bg_color.type}
-                        />
-                    ))
+                    ? (searchHistorial === true)
+                        ? <TransactionHistorial />
+                        :
+                        restaurant.map(rest => (
+                            <Restaurant
+                                key={rest.restaurant.id}
+                                name={rest.restaurant.name}
+                                thumb={rest.restaurant.thumb}
+                                locality={rest.restaurant.location.locality}
+                                address={rest.restaurant.location.address}
+                                cuisines={rest.restaurant.cuisines}
+                                cost={rest.restaurant.average_cost_for_two}
+                                rating={rest.restaurant.user_rating.aggregate_rating}
+                                votes={rest.restaurant.user_rating.votes}
+                                rating_color={rest.restaurant.user_rating.rating_obj.bg_color.type}
+                            />
+                        ))
 
                     : <div className="loader">
                         <Audio

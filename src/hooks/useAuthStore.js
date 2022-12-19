@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { userApi } from "../api";
 import { getAuthError } from "../helpers/getErrors";
-import { onChecking, onLogin, onLogout, clearErrorMessage } from "../store";
+import { onChecking, onLogin, onLogout, clearErrorMessage, clearRestaurantsHsitory } from "../store";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -54,6 +54,7 @@ export const useAuthStore = () => {
   const startLogout = () => {
     localStorage.clear();
     dispatch(onLogout());
+    dispatch(clearRestaurantsHsitory());
   };
 
   const checkAuthToken = async () => {
