@@ -11,9 +11,9 @@ export const TransactionHistorial = () => {
             <h2>Historial de b&uacute;squedas</h2>
 
             {
-                restaurants.map(rest => (
+                restaurants.map((rest, i) => (
                     <Restaurant
-                        key={`${rest.rating_color}${rest.rating}${rest.votes}`}
+                        key={`${rest.rating_color}${rest.rating}${rest.votes}${i}`}
                         name={rest.name}
                         thumb={rest.thumb}
                         locality={rest.locality}
