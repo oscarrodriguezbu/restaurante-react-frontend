@@ -20,6 +20,7 @@
   place-items: center;
   margin: 0px;
   min-height: 100vh;
+  padding-bottom: 40px;
 }
 
 .App .loader {
@@ -67,7 +68,7 @@ a {
 }
 
 .App h2 {
-  color:green;
+  color: green;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   text-align: center;
   margin-bottom: 20px;
@@ -243,6 +244,21 @@ a {
   font-weight: 600;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+.App .noHistoryImg {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  margin-top: 25px;
+  align-items: center;
+  height: 20rem;
+}
+
+.App .noHistoryImg img {
+  width: 12rem;
+ }
 
 @media (max-width: 1100px) {
   .restaurant-tile {

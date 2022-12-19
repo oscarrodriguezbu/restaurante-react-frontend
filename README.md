@@ -9,6 +9,10 @@
 VITE_API_URL= http://localhost:4000/api
 
 ```
+### `yarn dev`
+
+Runs the app in the development mode.\
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
 ## APIS:
 1. El backend creado en [https://github.com/oscarrodriguezbu/restaurante-react-backend](https://github.com/oscarrodriguezbu/restaurante-react-backend)
